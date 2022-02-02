@@ -20,7 +20,7 @@ mod_channel_env = os.environ.get('mod_channel')
 booster_name_env = os.environ.get('booster_name')
 mod_name_env = os.environ.get('mod_name')
 
-bot = commands.Bot(command_prefix='[', description=description, intents=intents)
+bot = commands.Bot(command_prefix='?', description=description, intents=intents)
 
 @bot.event
 async def on_ready():

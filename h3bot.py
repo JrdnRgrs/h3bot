@@ -62,6 +62,7 @@ async def boostrole(ctx, member: discord.Member):
                 await ctx.send("Creating role: **"+roleName+"**")
                 await guild.create_role(name=roleName)
                 role = discord.utils.get(ctx.guild.roles, name=roleName)
+                await ctx.send(ctx.author.mention+", please move the user's role above the Server Booster role.")
             else:
                 await ctx.send("Role: **"+roleName+"** exists")
 
@@ -119,6 +120,7 @@ async def boostrolecolor(ctx, member: discord.Member, ucolor):
                 await ctx.send("Creating role: "+roleName+" of Color: "+ucolor)
                 await guild.create_role(name=roleName, colour=discord.Colour(colorCode))
                 role = discord.utils.get(ctx.guild.roles, name=roleName)
+                await ctx.send(ctx.author.mention+", please move the user's role above the Server Booster role.")
             else:
 
                 await ctx.send("Setting Role: **"+roleName+"** color to "+ucolor)

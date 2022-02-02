@@ -29,7 +29,7 @@ async def on_ready():
     print(bot.user.id)
     print('------')
 
-@bot.command()
+@bot.command(name="boostrole", aliases=['boostr'])
 async def boostrole(ctx, member: discord.Member):
     roleName = member.name + "#"+member.discriminator
     guild = ctx.guild
@@ -74,7 +74,7 @@ async def boostrole(ctx, member: discord.Member):
             await ctx.send("You must be a @Moderator to run this command.")
 
 
-@bot.command()
+@bot.command(name="boostrolecolor", aliases=['boostrc'])
 async def boostrolecolor(ctx, member: discord.Member, ucolor):
     roleName = member.name + "#"+member.discriminator
 

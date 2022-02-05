@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # This example requires the 'members' privileged intents
 import os
 from email.message import Message
@@ -6,7 +8,9 @@ from discord.ext import commands
 from discord.utils import get
 from discord import Color
 import random
+from dotenv import load_dotenv
 
+load_dotenv()
 description = '''An example bot to showcase the discord.ext.commands extension
 module.
 
@@ -15,10 +19,18 @@ There are a number of utility commands being showcased here.'''
 intents = discord.Intents.default()
 intents.members = True
 
-booster_channel_env = os.environ.get('booster_channel')
-mod_channel_env = os.environ.get('mod_channel')
-booster_name_env = os.environ.get('booster_name')
-mod_name_env = os.environ.get('mod_name')
+booster_channel_env = os.getenv('booster_channel')
+mod_channel_env = os.getenv('mod_channel')
+booster_name_env = os.getenv('booster_name')
+mod_name_env = os.getenv('mod_name')
+notify_channel_env = os.getenv('notify_channel')
+
+
+#booster_channel_env = os.environ.get('booster_channel')
+#mod_channel_env = os.environ.get('mod_channel')
+#booster_name_env = os.environ.get('booster_name')
+#mod_name_env = os.environ.get('mod_name')
+#notify_channel_env = os.environ.get('notify_channel')
 
 bot = commands.Bot(command_prefix='?', description=description, intents=intents)
 
@@ -81,6 +93,7 @@ async def boostrolecolor(ctx, member: discord.Member, ucolor):
 
     boosterChannelId = booster_channel_env
     modbotChannelId = mod_channel_env
+    notifyChannel = notify_channel_env
     cid = ctx.message.channel.id
     author = ctx.author
     colorCode = int(ucolor, 16)
@@ -112,6 +125,7 @@ async def boostrolecolor(ctx, member: discord.Member, ucolor):
 
     isInBoost = str(cid) == boosterChannelId
     isInMod = str(cid) == modbotChannelId
+    channel = bot.get_channel(int(notifyChannel))
 
     if isInBoost or isInMod:
         if isMod:
@@ -141,6 +155,18 @@ async def boostrolecolor(ctx, member: discord.Member, ucolor):
                     await role.edit(colour=discord.Colour(colorCode))
             else:
                 await ctx.send("Only Boosters can run this command! Get out of this channel!")
+                uroles = ctx.message.author.roles
+                urole_names = []
+                for rol in uroles:
+                    urole_names.append(rol.name)
+                urole_names.pop(0)
+                await channel.send("User "+member.mention+" not detected as Booster. Roles: ")
+                await channel.send(urole_names)
+                print('User {0.name}#{0.discriminator} not detected as Booster.'.format(member))
+                print("Roles: ")
+                for ro in ctx.message.author.roles:
+                        print("\t", ro.name)
+
 
 
 token = os.environ.get('bot_token')
